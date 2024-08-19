@@ -1,0 +1,19 @@
+{
+  "manager": [
+    {
+      "id": "8a89",
+      "name": "Ivan"
+    }
+  ],
+  "client": [
+    {
+      "id": "2a23",
+      "manager_id": "8a89",
+      "name": "Sergey",
+      "date_of_birth": "2020-12-12",
+      "phone": "77777777111",
+      "gender": "male",
+      "status": "active"
+    }
+  ]
+}
