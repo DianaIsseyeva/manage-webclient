@@ -1,4 +1,3 @@
-// import '@/styles/globals.css';
 import Layout from '@/components/layouts/component';
 import { ConfigProvider } from 'antd';
 import type { AppProps } from 'next/app';
