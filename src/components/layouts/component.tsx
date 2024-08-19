@@ -12,11 +12,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pagesArr = [
     {
       key: 1,
-      label: <Link href='/manager'>Менеджер</Link>,
+      label: <Link href='/manager'>Manager</Link>,
     },
     {
       key: 2,
-      label: <Link href='/client'>Клиент</Link>,
+      label: <Link href='/client'>Client</Link>,
     },
   ];
 

@@ -1,6 +1,6 @@
 import { ManagerController } from '@/pages/api/controllers/manager';
 import { ManagerType } from '@/types';
-import { Button, Input, Modal } from 'antd';
+import { Button, Input, Modal, Table } from 'antd';
 import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -38,20 +38,31 @@ export const Manager = () => {
     setIsModalOpen(false);
   };
 
+  const columns = [
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_: any, record: ManagerType) => <Button onClick={() => showModal(record)}>Edit</Button>,
+    },
+  ];
+
   return (
     <div>
-      {managers?.map(manager => (
-        <div key={manager.id} style={{ display: 'flex', alignItems: 'center' }}>
-          <p style={{ margin: 0 }}>{manager.name}</p>
-          <Button style={{ marginLeft: '10px' }} onClick={() => showModal(manager)}>
-            Редактировать
-          </Button>
-        </div>
-      ))}
+      <Table columns={columns} dataSource={managers} rowKey='id' />
 
       {isClient &&
         ReactDOM.createPortal(
-          <Modal title='Редактирование имени' visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <Modal title='Edit' visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <Input value={newName} onChange={e => setNewName(e.target.value)} />
           </Modal>,
           document.body
