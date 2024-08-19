@@ -9,8 +9,10 @@ export const Manager = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentManager, setCurrentManager] = useState<ManagerType | null>(null);
   const [newName, setNewName] = useState('');
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     (async () => {
       const meResponse = await ManagerController.getManagers();
       setManagers(meResponse);
@@ -47,12 +49,13 @@ export const Manager = () => {
         </div>
       ))}
 
-      {ReactDOM.createPortal(
-        <Modal title='Редактирование имени' visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-          <Input value={newName} onChange={e => setNewName(e.target.value)} />
-        </Modal>,
-        document.body
-      )}
+      {isClient &&
+        ReactDOM.createPortal(
+          <Modal title='Редактирование имени' visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <Input value={newName} onChange={e => setNewName(e.target.value)} />
+          </Modal>,
+          document.body
+        )}
     </div>
   );
 };
