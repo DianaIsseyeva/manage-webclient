@@ -12,8 +12,10 @@ export const Client = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentClient, setCurrentClient] = useState<ClientType | null>(null);
   const [editedClient, setEditedClient] = useState<Partial<ClientType>>({});
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
+    setIsClient(true);
     (async () => {
       const clientsResponse = await ClientController.getClients();
       setClients(clientsResponse);
@@ -97,44 +99,45 @@ export const Client = () => {
     <div>
       <Table columns={columns} dataSource={clients} rowKey='id' />
 
-      {ReactDOM.createPortal(
-        <Modal title='Edit Client' visible={isModalOpen} onOk={handleEditOk} onCancel={handleEditCancel}>
-          <Input
-            value={editedClient.name}
-            onChange={e => setEditedClient({ ...editedClient, name: e.target.value })}
-            placeholder='Name'
-          />
-          <Input
-            value={editedClient.manager_id}
-            onChange={e => setEditedClient({ ...editedClient, manager_id: e.target.value })}
-            placeholder='Manager ID'
-          />
-          <Input
-            value={editedClient.date_of_birth}
-            onChange={e => setEditedClient({ ...editedClient, date_of_birth: e.target.value })}
-            placeholder='Date of Birth'
-          />
-          <Select
-            value={editedClient.gender}
-            onChange={value => setEditedClient({ ...editedClient, gender: value })}
-            placeholder='Gender'
-            style={{ width: '100%', marginBottom: '16px' }}
-          >
-            <Option value='male'>Male</Option>
-            <Option value='female'>Female</Option>
-          </Select>
-          <Select
-            value={editedClient.status}
-            onChange={value => setEditedClient({ ...editedClient, status: value })}
-            placeholder='Status'
-            style={{ width: '100%' }}
-          >
-            <Option value='active'>Active</Option>
-            <Option value='inactive'>Inactive</Option>
-          </Select>
-        </Modal>,
-        document.body
-      )}
+      {isClient &&
+        ReactDOM.createPortal(
+          <Modal title='Edit Client' visible={isModalOpen} onOk={handleEditOk} onCancel={handleEditCancel}>
+            <Input
+              value={editedClient.name}
+              onChange={e => setEditedClient({ ...editedClient, name: e.target.value })}
+              placeholder='Name'
+            />
+            <Input
+              value={editedClient.manager_id}
+              onChange={e => setEditedClient({ ...editedClient, manager_id: e.target.value })}
+              placeholder='Manager ID'
+            />
+            <Input
+              value={editedClient.date_of_birth}
+              onChange={e => setEditedClient({ ...editedClient, date_of_birth: e.target.value })}
+              placeholder='Date of Birth'
+            />
+            <Select
+              value={editedClient.gender}
+              onChange={value => setEditedClient({ ...editedClient, gender: value })}
+              placeholder='Gender'
+              style={{ width: '100%', marginBottom: '16px' }}
+            >
+              <Option value='male'>Male</Option>
+              <Option value='female'>Female</Option>
+            </Select>
+            <Select
+              value={editedClient.status}
+              onChange={value => setEditedClient({ ...editedClient, status: value })}
+              placeholder='Status'
+              style={{ width: '100%' }}
+            >
+              <Option value='active'>Active</Option>
+              <Option value='inactive'>Inactive</Option>
+            </Select>
+          </Modal>,
+          document.body
+        )}
     </div>
   );
 };
