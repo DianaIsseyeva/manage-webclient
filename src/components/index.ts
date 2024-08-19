@@ -1,2 +1,2 @@
-// export * from './layouts';
+export * from './layouts';
 export * from './pages';

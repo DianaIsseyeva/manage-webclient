@@ -107,13 +107,13 @@ export const Manager = () => {
       <Button type='primary' onClick={() => showModal()} style={{ marginBottom: '16px' }}>
         Create Manager
       </Button>
-      <Table columns={columns} dataSource={managers} rowKey='id' />
+      <Table columns={columns} dataSource={managers} rowKey='id' scroll={{ x: 'max-content' }} />
 
       {isClient &&
         ReactDOM.createPortal(
           <Modal
             title={isEditing ? 'Edit Manager' : 'Create Manager'}
-            visible={isModalOpen}
+            open={isModalOpen}
             onOk={handleOk}
             onCancel={handleCancel}
           >

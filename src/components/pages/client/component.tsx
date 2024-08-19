@@ -1,5 +1,6 @@
 import { ClientController } from '@/pages/api/controllers/client';
 import { ClientType } from '@/types';
+import { ReloadOutlined } from '@ant-design/icons'; // Импортируем иконку
 import { Button, Input, Modal, Popconfirm, Select, Table, Typography } from 'antd';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
@@ -11,6 +12,7 @@ const { Option } = Select;
 
 export const Client = () => {
   const [clients, setClients] = useState<ClientType[]>([]);
+  const [filteredClients, setFilteredClients] = useState<ClientType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentClient, setCurrentClient] = useState<ClientType | null>(null);
   const [editedClient, setEditedClient] = useState<Partial<ClientType>>({});
@@ -19,6 +21,7 @@ export const Client = () => {
   const [day, setDay] = useState('');
   const [isClient, setIsClient] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [filterStatus, setFilterStatus] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     setIsClient(true);
@@ -27,6 +30,27 @@ export const Client = () => {
       setClients(clientsResponse);
     })();
   }, []);
+
+  useEffect(() => {
+    filterClientsByStatus(filterStatus);
+  }, [clients, filterStatus]);
+
+  const filterClientsByStatus = (status: string | undefined) => {
+    if (!status) {
+      setFilteredClients(clients);
+    } else {
+      const filtered = clients.filter(client => client.status === status);
+      setFilteredClients(filtered);
+    }
+  };
+
+  const handleStatusFilterChange = (value: string) => {
+    setFilterStatus(value);
+  };
+
+  const handleResetFilter = () => {
+    setFilterStatus(undefined);
+  };
 
   const showEditModal = (client?: ClientType) => {
     if (client) {
@@ -154,16 +178,32 @@ export const Client = () => {
 
   return (
     <div>
-      <Button type='primary' onClick={() => showEditModal()} style={{ marginBottom: '16px' }}>
-        Create Client
-      </Button>
-      <Table columns={columns} dataSource={clients} rowKey='id' />
+      <div style={{ marginBottom: '16px', display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <Button type='primary' onClick={() => showEditModal()}>
+          Create Client
+        </Button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Select
+            value={filterStatus}
+            onChange={handleStatusFilterChange}
+            placeholder='Filter by Status'
+            style={{ width: '200px' }}
+          >
+            <Option value='active'>Active</Option>
+            <Option value='archive'>Archive</Option>
+            <Option value='pending'>Pending</Option>
+          </Select>
+          <Button icon={<ReloadOutlined />} onClick={handleResetFilter} style={{ padding: '0 8px' }} />
+        </div>
+      </div>
+
+      <Table columns={columns} dataSource={filteredClients} rowKey='id' scroll={{ x: 'max-content' }} />
 
       {isClient &&
         ReactDOM.createPortal(
           <Modal
             title={isEditing ? 'Edit Client' : 'Create Client'}
-            visible={isModalOpen}
+            open={isModalOpen}
             onOk={handleEditOk}
             onCancel={handleCancel}
           >
@@ -171,11 +211,13 @@ export const Client = () => {
               value={editedClient.name}
               onChange={e => setEditedClient({ ...editedClient, name: e.target.value })}
               placeholder='Name'
+              style={{ marginBottom: '8px' }}
             />
             <Input
               value={editedClient.manager_id}
               onChange={e => setEditedClient({ ...editedClient, manager_id: e.target.value })}
               placeholder='Manager ID'
+              style={{ marginBottom: '8px' }}
             />
             <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
               <Input value={year} onChange={e => setYear(e.target.value)} placeholder='Year' style={{ width: '33%' }} />
@@ -191,12 +233,13 @@ export const Client = () => {
               value={editedClient.phone}
               onChange={e => setEditedClient({ ...editedClient, phone: e.target.value })}
               placeholder='Phone'
+              style={{ marginBottom: '8px' }}
             />
             <Select
               value={editedClient.gender}
               onChange={value => setEditedClient({ ...editedClient, gender: value })}
               placeholder='Gender'
-              style={{ width: '100%', marginBottom: '16px' }}
+              style={{ width: '100%', marginBottom: '8px' }}
             >
               <Option value='male'>Male</Option>
               <Option value='female'>Female</Option>
@@ -205,10 +248,11 @@ export const Client = () => {
               value={editedClient.status}
               onChange={value => setEditedClient({ ...editedClient, status: value })}
               placeholder='Status'
-              style={{ width: '100%' }}
+              style={{ width: '100%', marginBottom: '8px' }}
             >
               <Option value='active'>Active</Option>
-              <Option value='inactive'>Inactive</Option>
+              <Option value='archive'>Archive</Option>
+              <Option value='pending'>Pending</Option>
             </Select>
           </Modal>,
           document.body

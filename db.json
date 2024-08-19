@@ -7,40 +7,22 @@
   ],
   "client": [
     {
-      "id": "2a23",
-      "name": "Sergey",
-      "manager_id": "8a89",
-      "date_of_birth": "2020-12-12",
-      "phone": "77777777111",
-      "gender": "female",
-      "status": "active"
-    },
-    {
-      "id": "a255ac35-ed69-4788-8376-e79d343011b2",
-      "name": "sveta",
-      "manager_id": "11",
-      "date_of_birth": "1985-11-12",
-      "phone": "22222",
-      "gender": "male",
-      "status": "active"
-    },
-    {
       "id": "839a7550-efc4-4d20-98aa-621437a5a72d",
       "name": "Kolya",
       "manager_id": "33",
       "date_of_birth": "1985-01-22",
-      "phone": "333",
-      "gender": "male",
-      "status": "active"
+      "phone": "33354534534553534",
+      "gender": "female",
+      "status": "archive"
     },
     {
-      "id": "4318bbaf-8960-4a09-b5d3-90b104c01aa4",
-      "name": "Masha",
-      "manager_id": "44",
-      "date_of_birth": "2000-11-10",
-      "phone": "3442423434",
-      "gender": "female",
-      "status": "inactive"
+      "id": "370a5db7-02b9-4766-99eb-38f5052a5bd6",
+      "name": "sveta",
+      "manager_id": "11",
+      "date_of_birth": "2001-2-22",
+      "phone": "44556677",
+      "gender": "male",
+      "status": "active"
     }
   ]
 }
