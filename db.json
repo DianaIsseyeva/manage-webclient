@@ -1,0 +1,28 @@
+{
+  "manager": [
+    {
+      "id": "8a89",
+      "name": "Ivan"
+    }
+  ],
+  "client": [
+    {
+      "id": "839a7550-efc4-4d20-98aa-621437a5a72d",
+      "name": "Kolya",
+      "manager_id": "33",
+      "date_of_birth": "1985-01-22",
+      "phone": "33354534534553534",
+      "gender": "female",
+      "status": "archive"
+    },
+    {
+      "id": "370a5db7-02b9-4766-99eb-38f5052a5bd6",
+      "name": "sveta",
+      "manager_id": "11",
+      "date_of_birth": "2001-2-22",
+      "phone": "44556677",
+      "gender": "male",
+      "status": "active"
+    }
+  ]
+}
